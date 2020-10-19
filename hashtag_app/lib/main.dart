@@ -6,10 +6,59 @@ import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+// Widget displays hashtags generated, passed w/ tags constructor argument
+class HashtagPage extends StatelessWidget {
+  // make stateful? https://www.youtube.com/watch?v=PqeeMy1fQys&t=0s
+  @override
+  HashtagPage({this.tags});
+  final List<String> tags;
+
+  Widget build(BuildContext context) {
+    var total = tags.length;
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Your Hashtags: $total"),
+        ),
+        // Generate new widget for every tag in list
+        body: Scrollbar(
+          child: ListView.builder(
+            itemCount: tags.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                  title: Text('${tags[index]}'),
+                  //https://pub.dev/packages/clipboard_manager/example
+                  trailing: TextButton(
+                      child: Icon(Icons.content_copy),
+                      onPressed: () {
+                        ClipboardManager.copyToClipBoard("your text to copy")
+                            .then((result) {
+                          final snackBar = SnackBar(
+                            content: Text('Copied to Clipboard'),
+                          );
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        });
+                      }));
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color(0xffff217e),
+          foregroundColor: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          label: Text('Try Another Image!'),
+          //DISCLAIMER: photo button only works once atm, crashes when pressed again idk why
+        ));
+  }
+} // Documentation for lots: https://flutter.dev/docs/cookbook/
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -41,6 +90,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   //state Object
   File _image; // Image file (saved in memory)
+  List<String> _listOfTags; // File containing list of tags (just for testing)
   final picker = ImagePicker(); //Plugin: https://pub.dev/packages/image_picker
 
   // Get Image from Gallery
@@ -83,6 +133,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // Generate Hashtags --> store file as L
+  Future _generateTags() async {
+    // TODO: do something with "_image" file (pass to tflite?)
+    // I just show numbered list here
+    setState(() {
+      _listOfTags = List<String>.generate(100, (i) => "#Hashtag$i");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
@@ -91,15 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
 
-      // Once photo selected:
-      // -  Display photo in center of screen
-      // -  Buttons to crop & redisplay
-      // -  Button to generate hashtags
-      // Once Hashtags generated:
-      // -  Button to view hashtags appears
       body: ListView(
         children: <Widget>[
           if (_image != null) ...[
+            // Once photo selected:
+            // -  Display photo in center of screen
+            // -  Buttons to crop & redisplay
+            // -  Button to generate hashtags
             Container(child: Image.file(_image)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,15 +166,44 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text('Crop Image',
                         style: TextStyle(fontSize: 18, color: Colors.white)),
                     onPressed: _cropImage),
-                // TODO: Hashtag Button Functionality
-                // when list_of_tags is not null, view hashtags button will show up
+                // TODO: Generate Hashtags Functionality to generate list_of_tags
                 ElevatedButton(
                     child: Text('Generate Hashtags',
                         style: TextStyle(fontSize: 18)),
-                    onPressed: null)
+                    onPressed: _generateTags),
+                // change so list of tags is  file object after
               ],
             ),
+            // Once List of Hashtags generated:
+            // -  Button to view hashtags appears
+            // -  opens new page with displayed tags
+            Visibility(
+                visible: _listOfTags != null,
+                child: Center(
+                    child: Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('View Hashtags',
+                            style: TextStyle(fontSize: 25)),
+                      ),
+                      // When 'View Hashtags' Pressed, navigate to new page
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  HashtagPage(tags: _listOfTags)),
+                        );
+                      }),
+                )))
           ] else
+            // If photo not yet selected, options hidden
             Container(
               width: 50.0,
               height: 300.0,
@@ -134,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
 
-      // Select image from camera or gallery when button pressed
+      // Select image from camera or gallery by pressing button
       floatingActionButton: SpeedDial(
         child: Icon(Icons.add_a_photo, size: 30.0),
         overlayColor: Colors.black,

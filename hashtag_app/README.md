@@ -1,17 +1,23 @@
 # COM SCI 130 Group Project
 
-A new Flutter project.
+This is a Prototype, run on iOS.
 
 #### Team Members
-Rio Sonoyama
+Rio Sonoyama,
 
-Tomer Laufer
+Tomer Laufer,
 
-Shreya Raman
+Shreya Raman,
 
-Sam Pando
+Sam Pando,
 
-Takashi Joubert
+Takashi Joubert,
+
+Karl Danielsen
+
+change app icon: https://pub.dev/packages/flutter_launcher_icons
+and cute project name for real project
+
 
 
 ## Getting Started

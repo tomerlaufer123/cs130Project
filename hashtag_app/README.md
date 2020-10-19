@@ -4,9 +4,13 @@ A new Flutter project.
 
 #### Team Members
 Rio Sonoyama
+
 Tomer Laufer
+
 Shreya Raman
+
 Sam Pando
+
 Takashi Joubert
 
 

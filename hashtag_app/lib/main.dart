@@ -6,112 +6,12 @@ import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:clipboard_manager/clipboard_manager.dart';
+
+import 'hashtag_list.dart';
 
 void main() {
   runApp(MyApp());
 }
-
-// Screen/Route displays hashtags generated
-// TODO: see if you could use instagram API Rio sent in the chat w/ tag
-class SimilarImages extends StatelessWidget {
-  @override
-  SimilarImages({this.tag});
-  final String tag; // the hashtag in question, passed as argument
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Related to $tag")),
-        body: Scrollbar(
-            child: GridView.count(
-          crossAxisCount: 2,
-          children: List.generate(50, (index) {
-            return Container(
-              child: Card(
-                  color: const Color(0xff1a1a1a),
-                  child: Icon(Icons.image_outlined,
-                      color: Color(0xff737373), size: 60)),
-            );
-          }),
-        )));
-  }
-}
-
-// Screen/Route displays hashtags generated, passed w/ tags constructor argument
-class HashtagPage extends StatelessWidget {
-  // make stateful? https://www.youtube.com/watch?v=PqeeMy1fQys&t=0s
-  @override
-  HashtagPage({this.tags});
-  final List<String> tags;
-
-  Widget build(BuildContext context) {
-    var total = tags.length;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Your Hashtags: $total"),
-        ),
-        // Show entry every hashtag in generated list
-        body: Scrollbar(
-          child: ListView.builder(
-            itemCount: tags.length,
-            itemBuilder: (context, index) {
-              return Card(
-                  margin: EdgeInsets.only(
-                      top: 4.0, bottom: 4.0, left: 9.0, right: 9.0),
-                  child: ListTile(
-                    // Every Entry has:
-                    // - hashtag
-                    // - Ctrl+C button
-                    // - button to view photos from inst with hashtag
-                    title: Text('${tags[index]}',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 19,
-                        )),
-                    trailing: Wrap(
-                      spacing: 0, // space between two icons
-                      children: <Widget>[
-                        TextButton(
-                            child: Icon(Icons.content_copy),
-                            onPressed: () {
-                              ClipboardManager.copyToClipBoard(
-                                      "your text to copy")
-                                  .then((result) {
-                                final snackBar = SnackBar(
-                                  content: Text('Copied to Clipboard'),
-                                );
-                                Scaffold.of(context).showSnackBar(snackBar);
-                              });
-                            }),
-                        /* TextButton( child: Icon(Icons.favorite), onPressed: null) */
-                        // maybe save liked hashtags
-                        TextButton(
-                            child: Icon(Icons.image_search),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SimilarImages(
-                                          tag: '${tags[index]}')));
-                            }),
-                      ],
-                    ),
-                  ));
-            },
-          ),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: const Color(0xffff217e),
-          foregroundColor: Colors.black,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          label: Text('Try Another Image!'),
-          //DISCLAIMER: photo button only works once atm, crashes when pressed again idk why
-        ));
-  }
-} // Documentation for lots: https://flutter.dev/docs/cookbook/
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -167,7 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Reset Image
-  // DISCLAIMER pressing "choose from gallery" more than once still made app crash)
   Future<void> _resetImage() async {
     setState(() {
       _image = null; // set image to captured photo
@@ -292,25 +191,28 @@ class _MyHomePageState extends State<MyHomePage> {
               // If photo not yet selected, options hidden
               // - Show 'No Image Selected'
               // - Greyed out Buttons
+              // - Tapping "No Image Selected" opens gallery selection
               children: <Widget>[
-                  Container(
-                    width: 50.0,
-                    height: 300.0,
-                    color: const Color(0xff1a1a1a),
-                    //decoration: BoxDecoration(
-                    //    border: Border.all(color: Colors.white, width: 17)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 16.0, left: 16.0, right: 16.0),
-                      child: const DecoratedBox(
-                          decoration: const BoxDecoration(
-                            color: const Color(0xff303030),
-                          ),
-                          child: Center(
-                              child: Text(
-                                  'No image selected', //\n\nPress the camera button to pick an image!',
-                                  style: TextStyle(
-                                      fontSize: 17, color: Colors.white)))),
+                  GestureDetector(
+                    onTap: () =>
+                        _getImage(ImageSource.gallery, context: context),
+                    child: Container(
+                      width: 50.0,
+                      height: 300.0,
+                      color: const Color(0xff1a1a1a),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16.0, left: 16.0, right: 16.0),
+                        child: const DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: const Color(0xff303030),
+                            ),
+                            child: Center(
+                                child: Text(
+                                    'No image selected', //\n\nPress the camera button to pick an image!',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Colors.white)))),
+                      ),
                     ),
                   ),
                   Container(
@@ -344,6 +246,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Icon(Icons.photo_library),
             onTap: () => _getImage(ImageSource.gallery, context: context),
           ),
+          // DISCLAIMER pressing "choose from gallery" more than once made app crash)
+          // No such issue when tapping screen w/ gesture detector
           SpeedDialChild(
             label: 'Take photo',
             backgroundColor: Colors.blue,

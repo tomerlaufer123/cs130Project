@@ -292,14 +292,14 @@ class _MyHomePageState extends State<MyHomePage> {
               // If photo not yet selected, options hidden
               // - Show 'No Image Selected'
               // - Greyed out Buttons
-              children: <Widget>[
-                  Container(
+	      children: <Widget>[
+	            GestureDetector(
+	              onTap: () => _getImage(ImageSource.gallery, context: context),
+	              child: Container(
                     width: 50.0,
                     height: 300.0,
                     color: const Color(0xff1a1a1a),
-                    //decoration: BoxDecoration(
-                    //    border: Border.all(color: Colors.white, width: 17)),
-                    child: Padding(
+		                child: Padding(
                       padding: const EdgeInsets.only(
                           top: 16.0, left: 16.0, right: 16.0),
                       child: const DecoratedBox(
@@ -312,8 +312,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.white)))),
                     ),
-                  ),
-                  Container(
+                ),
+		          ),
+              Container(
                       width: 50.0,
                       height: 60.0,
                       color: const Color(0xff1a1a1a),

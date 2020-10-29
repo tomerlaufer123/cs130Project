@@ -15,11 +15,13 @@ We develop a TensorFlow model that auto-generates hashtags based on the input im
     ```
     conda env create -f environment.yml
     ```
-    Note: your current directory should be in ```model_development```\
+    Note: your current directory should be in ```model_development/```\
     You can activate the environment by using the command:
     ```
     conda activate youreit
     ```
+3. Download [HARRISON dataset](https://github.com/minstone/HARRISON-Dataset). The dataset is in a torrent file. If you don't have a torrent client, you can install [qBittorrent](https://www.qbittorrent.org/download.php). If you don't know how to download and open a torrent file, [this tutorial](https://www.wikihow.com/Download-and-Open-Torrent-Files) might be helpful. Once you download the dataset, save it under ```dataset/```.
+
 
 ## Notebooks
 This is where we do our experiments.
@@ -28,4 +30,4 @@ This is where we do our experiments.
 2. 
 
 ## Reference
-- [HARRISON-Dataset](https://github.com/minstone/HARRISON-Dataset)
+- Minseok Park and Hanxiang Li and Junmo Kim (2016). HARRISON: A Benchmark on HAshtag Recommendation for Real-world Images in Social Networks. https://github.com/minstone/HARRISON-Dataset. Eprint: arXiv:1605.05054

@@ -1,0 +1,14 @@
+# vscode
+.vscode/
+
+# Mac
+.DS_Store
+
+# Python
+*/__pycache__/
+
+# Notebook
+*.ipynb_checkpoints
+
+# Other
+HARRISON/

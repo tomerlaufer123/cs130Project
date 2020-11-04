@@ -5,10 +5,41 @@
 .DS_Store
 
 # Python
-*/__pycache__/
+__pycache__/
 
 # Notebook
-*.ipynb_checkpoints
+.ipynb_checkpoints/
 
-# Other
-HARRISON/
+# HARRISON data except for a few
+**/HARRISON/*.txt
+**/HARRISON/images/*.jpg
+!justinbieber_image_1127.jpg
+!makeup_image_696.jpg
+!truth_image_2843.jpg
+!dog_image_1067.jpg
+!family_image_2692.jpg
+!boyfriend_image_2324.jpg
+!friends_image_3652.jpg
+!instafood_image_1064.jpg
+!friends_image_52.jpg
+!cake_image_869.jpg
+!makeup_image_1294.jpg
+!yellow_image_4941.jpg
+!loveyou_image_690.jpg
+!new_image_502.jpg
+!boy_image_1534.jpg
+!beach_image_2132.jpg
+!school_image_1967.jpg
+!green_image_1251.jpg
+!yellow_image_3363.jpg
+!tired_image_4059.jpg
+!cool_image_2243.jpg
+!friends_image_2681.jpg
+!yellow_image_1682.jpg
+!cake_image_590.jpg
+!yellow_image_4057.jpg
+!drunk_image_1397.jpg
+!awesome_image_270.jpg
+!model_image_2664.jpg
+!fashion_image_289.jpg
+!instafood_image_2029.jpg'

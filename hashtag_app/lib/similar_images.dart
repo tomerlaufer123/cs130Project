@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 This Page Route displays images related to the hashtag argument passed to it 
 */
 
-// TODO: see if you could use instagram API Rio sent in the chat w/ tag
+// TODO: see if you could use or incorperate instagram/Twitter API
 class SimilarImages extends StatelessWidget {
   @override
   SimilarImages({this.tag});

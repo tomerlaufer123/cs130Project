@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:async';
 
+import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -44,8 +46,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   //state Object
+  //File _image2; // Image file (displayed)
   File _image; // Image file (saved in memory)
+  List _recognitions;
+  //double _imageHeight;
+  //double _imageWidth;
   List<String> _listOfTags; // File containing list of tags (just for testing)
+  bool _busy = false;
   final picker =
       ImagePicker(); //Plugin: https://pub.dev/packages/image_picker/example
 
@@ -98,11 +105,84 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Generate Hashtags --> store file as L
   Future _generateTags() async {
-    // TODO: do something with "_image" file (pass to tflite?)
-    // I just show numbered list here
     setState(() {
-      _listOfTags = List<String>.generate(100, (i) => "#Hashtag$i");
+      _busy = true;
+      //_listOfTags = List<String>.generate(100, (i) => "#Hashtag$i");
     });
+    predictImage(_image);
+  }
+
+  Future predictImage(File image) async {
+    if (image == null) return;
+
+    await recognizeImage(image);
+
+    new FileImage(image)
+        .resolve(new ImageConfiguration())
+        .addListener(ImageStreamListener((ImageInfo info, bool _) {
+      setState(() {
+        //_imageHeight = info.image.height.toDouble();
+        //_imageWidth = info.image.width.toDouble();
+      });
+    }));
+
+    setState(() {
+      //_image2 = image;
+      _busy = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _busy = true;
+    loadModel().then((val) {
+      setState(() {
+        _busy = false;
+      });
+    });
+  }
+
+  Future loadModel() async {
+    Tflite.close();
+    try {
+      String res;
+      res = await Tflite.loadModel(
+        // TODO: Try w/ Rio's model
+        model: "assets/mobilenet_v1_1.0_224.tflite",
+        labels: "assets/mobilenet_v1_1.0_224.txt",
+        // useGpuDelegate: true,
+      );
+
+      print(res);
+    } on PlatformException {
+      print('Failed to load model.');
+    }
+  }
+
+  Future recognizeImage(File image) async {
+    int startTime = new DateTime.now().millisecondsSinceEpoch;
+    var recognitions = await Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 10,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
+    );
+    print(recognitions);
+    setState(() {
+      _recognitions = recognitions;
+      if (_recognitions != null) {
+        _listOfTags = List<String>();
+        _recognitions.forEach((res) {
+          _listOfTags.add("#${res["label"]}");
+        }); //add confidence later
+      } else {
+        _listOfTags = List<String>.generate(100, (i) => "#Hashtag$i");
+      }
+    });
+    int endTime = new DateTime.now().millisecondsSinceEpoch;
+    print("Inference took ${endTime - startTime}ms");
   }
 
   @override
@@ -148,7 +228,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 16),
                           child: ElevatedButton(
-                              // TODO: Implement Functionality to generate list_of_tags on backend
                               child: Padding(
                                 padding: EdgeInsets.all(14.0),
                                 child: Text('Generate',
@@ -182,10 +261,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                               builder: (context) => HashtagPage(
                                                   tags: _listOfTags)))
                                       : null;
+                                  // TODO: remove view hashtags if
+                                  // empty _listOfTags; w/o generating error?
                                 })),
                       ),
                     ],
-                  )
+                  ),
+                  Center(
+                      // TODO: make overlay/stack over entire screen
+                      child: _busy ? CircularProgressIndicator() : null)
                 ])
           : ListView(
               // If photo not yet selected, options hidden

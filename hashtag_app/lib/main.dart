@@ -7,9 +7,11 @@ import 'dart:async';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+//import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:dotted_line/dotted_line.dart';
 
 import 'hashtag_list.dart';
+import 'similar_images.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,9 +28,31 @@ class MyApp extends StatelessWidget {
         // This is the theme of your application.
         primarySwatch: Colors.pink,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        scaffoldBackgroundColor: const Color(0xFF575757),
+        scaffoldBackgroundColor: const Color(0xFF4a4a4a),
       ),
       home: MyHomePage(title: 'Hashtag Generator'),
+      onGenerateRoute: (settings) {
+        // extract arguments and pass to new screen constructor
+        switch (settings.name) {
+          case HashtagPage.routeName:
+            final ScreenArguments args = settings.arguments;
+            return MaterialPageRoute(
+                builder: (context) =>
+                    HashtagPage(tags: args.tags, image: args.image));
+          case SimilarImages.routeName:
+            final tag = settings.arguments;
+            return MaterialPageRoute(
+                builder: (context) => SimilarImages(tag: tag));
+          default:
+            return null;
+        }
+      },
+      /*initialRoute: '/',
+        routes: {
+        '/': (context) => MyHomePage(),
+        HashtagPage.routeName: (context) => HashtagPage(),
+        SimilarImages.routeName: (context) => SimilarImages(),
+      }*/
     );
   }
 }
@@ -46,15 +70,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   //state Object
-  //File _image2; // Image file (displayed)
   File _image; // Image file (saved in memory)
   List _recognitions;
   //double _imageHeight;
   //double _imageWidth;
   List<String> _listOfTags; // File containing list of tags (just for testing)
-  bool _busy = false;
+  bool _busy = false; // true while tags being generated
+  bool _refreshed = true; // toggle "view hashtag" button
   final picker =
       ImagePicker(); //Plugin: https://pub.dev/packages/image_picker/example
+  final GlobalKey<ScaffoldState> _scaffoldKeyH = new GlobalKey<ScaffoldState>();
 
   // Get Image from Gallery
   Future<void> _getImage(ImageSource source, {BuildContext context}) async {
@@ -76,7 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // Reset Image
   Future<void> _resetImage() async {
     setState(() {
-      _image = null; // set image to captured photo
+      _image = null;
+      _refreshed = true; // set image to captured photo
     });
   }
 
@@ -107,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future _generateTags() async {
     setState(() {
       _busy = true;
-      //_listOfTags = List<String>.generate(100, (i) => "#Hashtag$i");
+      _refreshed = false;
     });
     predictImage(_image);
   }
@@ -189,10 +215,51 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
     return Scaffold(
+      key: _scaffoldKeyH,
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-
+          title: Text(widget.title),
+          leading: GestureDetector(
+            onTap: () => _scaffoldKeyH.currentState.openDrawer(),
+            child: Icon(
+              Icons.menu, // add custom icons also
+            ),
+          )),
+      // Side Menu Opened by pressing "Menu" Button in top left
+      drawer: Drawer(
+          child: Container(
+        color: Color(0xFF4a4a4a),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Text('Close',
+                    style: TextStyle(fontSize: 15, color: Colors.white)),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.pink,
+              ),
+            ),
+            ListTile(
+              title: Text('View Favorites?',
+                  style: TextStyle(fontSize: 15, color: Colors.white)),
+              onTap: () => {
+                // TODO: Maybe view favs idk
+              },
+              trailing: Icon(Icons.favorite, color: Color(0xFFF48Fb1)),
+            ),
+            ListTile(
+              title: Text('See History?',
+                  style: TextStyle(fontSize: 15, color: Colors.white)),
+              onTap: () => {
+                // TODO: Maybe open page w/ previously generated tags w/ images
+              },
+              trailing: Icon(Icons.query_builder, color: Colors.white),
+            ),
+          ],
+        ),
+      )),
       body: _image != null
           ? ListView(
               // If photo has been selected:
@@ -227,25 +294,40 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 16),
-                          child: ElevatedButton(
-                              child: Padding(
-                                padding: EdgeInsets.all(14.0),
-                                child: Text('Generate',
-                                    style: TextStyle(fontSize: 20)),
-                              ),
-                              onPressed: _generateTags)),
+                          child: Opacity(
+                              opacity: (_listOfTags != null &&
+                                      _image != null &&
+                                      !_refreshed)
+                                  ? 0.4
+                                  : 1.0,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Color(0xffff217e)),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(14.0),
+                                    child: Text('Generate',
+                                        style: TextStyle(fontSize: 20)),
+                                  ),
+                                  onPressed: _generateTags))),
                       // Once List of Hashtags generated:
                       // -  Button to view hashtags appears
                       // -  opens new page with displayed tags
                       Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 16),
                         child: Opacity(
-                            opacity: (_listOfTags != null) ? 1.0 : 0.4,
+                            opacity: (_listOfTags != null &&
+                                    _image != null &&
+                                    !_refreshed)
+                                ? 1.0
+                                : 0.4,
                             child: ElevatedButton(
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Color(0xfff76fb6)),
+                                          Color(0xffff217e)),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(14.0),
@@ -254,50 +336,95 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 // When 'View Hashtags' Pressed, navigate to new page
                                 onPressed: () {
-                                  (_listOfTags != null)
-                                      ? Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => HashtagPage(
-                                                  tags: _listOfTags)))
+                                  (_listOfTags != null && _image != null)
+                                      ? Navigator.pushNamed(
+                                          context, HashtagPage.routeName,
+                                          arguments: ScreenArguments(
+                                              _listOfTags, _image))
                                       : null;
-                                  // TODO: remove view hashtags if
-                                  // empty _listOfTags; w/o generating error?
                                 })),
                       ),
                     ],
                   ),
                   Center(
-                      // TODO: make overlay/stack over entire screen
+                      // TODO: make opacity overlay/stack over entire screen?
                       child: _busy ? CircularProgressIndicator() : null)
                 ])
           : ListView(
               // If photo not yet selected, options hidden
-              // - Show 'No Image Selected'
-              // - Greyed out Buttons
-              // - Tapping "No Image Selected" opens gallery selection
+              // - Greyed out Crop/Refresh Buttons
+              // - Tapping "Gallery"/"Camera icon opens gallery/camera
               children: <Widget>[
-                  GestureDetector(
-                    onTap: () =>
-                        _getImage(ImageSource.gallery, context: context),
-                    child: Container(
-                      width: 50.0,
-                      height: 300.0,
-                      color: const Color(0xff1a1a1a),
-                      child: Padding(
+                  //Row(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //children: <Widget>[]),
+                  Container(
+                    //width: 50.0,
+                    height: 300.0,
+                    color: const Color(0xff1a1a1a),
+                    child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 16.0, left: 16.0, right: 16.0),
-                        child: const DecoratedBox(
+                            top: 15.0, left: 15.0, right: 15.0),
+                        child: DecoratedBox(
                             decoration: const BoxDecoration(
                               color: const Color(0xff303030),
                             ),
-                            child: Center(
-                                child: Text(
-                                    'No image selected', //\n\nPress the camera button to pick an image!',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white)))),
-                      ),
-                    ),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  GestureDetector(
+                                      onTap: () => _getImage(
+                                          ImageSource.gallery,
+                                          context: context),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(height: 30),
+                                            Icon(
+                                              Icons.photo_library,
+                                              size: 70.0,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(height: 20),
+                                            Text('Tap to Choose\nfrom Gallery',
+                                                textAlign: TextAlign
+                                                    .center, //\n\nPress the camera button to pick an image!',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white)),
+                                          ])),
+                                  DottedLine(
+                                    direction: Axis.vertical,
+                                    lineLength: 260.0, //double.infinity,
+                                    lineThickness: 1.0,
+                                    dashLength: 7.0,
+                                    dashColor: Colors.white,
+                                    dashGapLength: 4.0,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () =>
+                                          _getImage(ImageSource.camera),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(height: 30),
+                                            Icon(
+                                              Icons.add_a_photo,
+                                              size: 70.0,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(height: 20),
+                                            Text('Tap to Take a\nNew Photo',
+                                                textAlign: TextAlign
+                                                    .center, //\n\nPress the camera button to pick an image!',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white)),
+                                          ])),
+                                ]))),
                   ),
                   Container(
                       width: 50.0,
@@ -308,39 +435,44 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: <Widget>[
                             TextButton(
                                 child: Icon(Icons.crop,
-                                    color: Color(0xff828282), size: 30),
+                                    color: Color(0xff454545), size: 30),
                                 onPressed: null),
                             TextButton(
                               child: Icon(Icons.refresh,
-                                  color: Color(0xff828282), size: 30),
+                                  color: Color(0xff454545), size: 30),
                               onPressed: null,
                             )
                           ])),
                 ]),
 
+      // NOTE: FloatingActionButton speed dial was glitchy for gallery button, removed
       // Select image from camera or gallery by pressing button
-      floatingActionButton: SpeedDial(
-        child: Icon(Icons.add_a_photo, size: 30.0),
+      /*floatingActionButton: SpeedDial(
+        child: Icon(Icons.menu, size: 30.0),
         overlayColor: Colors.black,
-        overlayOpacity: 0.5,
+        overlayOpacity: 0.7,
         children: [
           SpeedDialChild(
-            label: 'Choose from Gallery',
-            backgroundColor: Colors.blue,
-            child: Icon(Icons.photo_library),
-            onTap: () => _getImage(ImageSource.gallery, context: context),
+            label: 'See Favorites?',
+            backgroundColor: Color(0xFF545454),
+            child: Icon(Icons.favorite, color: Color(0xFFF48Fb1)),
+            onTap: null, //TODO: maybe add favorited,
           ),
-          // DISCLAIMER pressing "choose from gallery" more than once made app crash)
-          // No such issue when tapping screen w/ gesture detector
           SpeedDialChild(
-            label: 'Take photo',
-            backgroundColor: Colors.blue,
-            child: Icon(Icons.photo_camera),
-            onTap: () => _getImage(ImageSource.camera),
-            //Debug: why pressing button after selecitng photo time crashes
+            label: 'History?',
+            backgroundColor: Colors.grey,
+            child: Icon(Icons.query_builder),
+            onTap: null,
           ),
         ],
-      ),
+      ),*/
     );
   }
+}
+
+class ScreenArguments {
+  final List<String> tags;
+  final File image;
+
+  ScreenArguments(this.tags, this.image);
 }

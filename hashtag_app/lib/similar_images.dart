@@ -7,6 +7,8 @@ This Page Route displays images related to the hashtag argument passed to it
 
 // TODO: see if you could use or incorperate instagram/Twitter API
 class SimilarImages extends StatelessWidget {
+  static const routeName = '/similarImages';
+
   @override
   SimilarImages({this.tag});
   final String tag; // the hashtag in question, passed as argument

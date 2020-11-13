@@ -12,6 +12,7 @@ __pycache__/
 
 # HARRISON data except for a few
 **/HARRISON/*.txt
+!1113124810_tag_list.txt
 **/HARRISON/images/*.jpg
 !justinbieber_image_1127.jpg
 !makeup_image_696.jpg
@@ -43,3 +44,7 @@ __pycache__/
 !model_image_2664.jpg
 !fashion_image_289.jpg
 !instafood_image_2029.jpg'
+
+# Model
+model_development/model/*
+*.tflite

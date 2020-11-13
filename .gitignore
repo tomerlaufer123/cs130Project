@@ -44,3 +44,7 @@ __pycache__/
 !model_image_2664.jpg
 !fashion_image_289.jpg
 !instafood_image_2029.jpg'
+
+# Model
+model_development/model/*
+*.tflite

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +17,44 @@ import 'similar_images.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+class Album {
+  final String name;
+  final String url;
+  final String content;
+  final String query;
+  final int    volume;
+
+  Album({this.name,this.url,this.content,this.query,this.volume});
+
+  factory Album.fromJson(Map<String,dynamic> json){
+    return Album(
+      name: json['name'],
+      url:  json['url'],
+      content: json['promoted_content'],
+      query: json['query'],
+      volume: json['volume'],
+    );
+  }
+}
+
+Future<Album> fetchAlbum() async {
+  print("attempting response fetch...");
+  
+  var response = await http.get('https://api.twitter.com/1.1/trends/place.json?id=2442047', headers: {"authorization": "Bearer AAAAAAAAAAAAAAAAAAAAADu%2BJgEAAAAAgqy73WFp%2Bnd9pXPCHBym9afDra0%3DnT67LdN67UcbaJtCpOzGbtfjRlMCTgL49E56VdG9gAQ045Rm5F"});
+  print("end attempt.");
+
+  if (response.statusCode == 200) {
+    print('nope');
+    return Album.fromJson(jsonDecode(response.body));
+  } else if(response.statusCode == 401){
+    print('insufficient authorization');
+  }
+  else {
+    print('yep');
+    throw Exception('Twitter server failed to respond.');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -80,6 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final picker =
       ImagePicker(); //Plugin: https://pub.dev/packages/image_picker/example
   final GlobalKey<ScaffoldState> _scaffoldKeyH = new GlobalKey<ScaffoldState>();
+
+  Future<Album> futureAlbum;
 
   // Get Image from Gallery
   Future<void> _getImage(ImageSource source, {BuildContext context}) async {
@@ -161,6 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    futureAlbum = fetchAlbum();
     _busy = true;
     loadModel().then((val) {
       setState(() {
@@ -267,7 +310,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // -  Buttons to crop & redisplay
               // -  Button to generate hashtags
               children: <Widget>[
-                  Container(
+	      	  Container(
                       width: 50.0,
                       height: 290.0,
                       color: const Color(0xff1a1a1a),
@@ -355,10 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // - Greyed out Crop/Refresh Buttons
               // - Tapping "Gallery"/"Camera icon opens gallery/camera
               children: <Widget>[
-                  //Row(
-                  //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //children: <Widget>[]),
-                  Container(
+		  Container(
                     //width: 50.0,
                     height: 300.0,
                     color: const Color(0xff1a1a1a),
@@ -476,3 +516,4 @@ class ScreenArguments {
 
   ScreenArguments(this.tags, this.image);
 }
+

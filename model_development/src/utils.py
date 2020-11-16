@@ -7,9 +7,10 @@ Description: helper functions
 # create unique destination path
 def destination(root="", filename="") -> str:
     from datetime import datetime
+    from os import path
 
     time = datetime.now().strftime("%m%d%H%M%S")
-    return f"{root}/{time}_{filename}"
+    return path.join(root, f"{time}_{filename}")
 
 
 # save model

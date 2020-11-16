@@ -1,8 +1,30 @@
 '''
 File: train.py
 Description: Train a model and save a model to disk.
+Usage: python train.py /path/to/data_list /path/to/tag_list /path/to/images_dir
 '''
+import sys
 
+if len(sys.argv) != 4:
+    print("Error: wrong number of args passed")
+    print("Usage: python train.py /path/to/data_list /path/to/tag_list /path/to/images_dir")
+    exit(1)
+    
+data_list = sys.argv[1]
+tag_list = sys.argv[2]
+image_dir = sys.argv[3]
+
+print(f"data_list = {data_list}")
+print(f"tag_list = {tag_list}")
+print(f"image_dir = {image_dir}")
+print("Are these pathes correct? [y/n] ", end="")
+
+inp = str(input())
+if inp != 'y':
+    print("Exiting the program...")
+    exit(0)
+
+import os
 from keras import preprocessing, Input, Model, regularizers, optimizers
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers import Dense, Activation, Flatten, Dropout
@@ -18,13 +40,13 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from utils import destination
 
-DATA_LIST = "./HARRISON/data_list.txt"
-TAG_LIST = "./HARRISON/1113124810_tag_list.txt"
-IMAGE_DIR = "./HARRISON/images"
+# DATA_LIST = "./HARRISON/data_list.txt"
+# TAG_LIST = "./HARRISON/1113124810_tag_list.txt"
+# IMAGE_DIR = "./HARRISON/images"
 
 # Read files
-filename = pd.read_csv(DATA_LIST, names=["filename"], header=None)
-hashtag = pd.read_csv(TAG_LIST, names=["labels"], header=None)
+filename = pd.read_csv(data_list, names=["filename"], header=None)
+hashtag = pd.read_csv(tag_list, names=["labels"], header=None)
 
 # Convert filenames from "instagram_dataset/xxx/yyy.jpg" to "xxx_yyy.jpg"
 filename["filename"]\
@@ -52,7 +74,7 @@ datagen = ImageDataGenerator(rescale=1./255.)
 # Create train data generator
 train_generator = datagen.flow_from_dataframe(
         dataframe=target,
-        directory=IMAGE_DIR,
+        directory=image_dir,
         x_col="filename",
         y_col=columns,
         batch_size=32,
@@ -109,4 +131,4 @@ model.fit_generator(
         verbose=0)
 
 # Save model for future use
-model.save(destination("../model", "keras_model"))
+model.save(destination(os.path.join(".", "model"), "keras_model"))

@@ -47,4 +47,4 @@ tag_list.txt
 
 # Model
 model_development/model/*
-*.tflite
+!*.tflite

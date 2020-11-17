@@ -175,8 +175,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String res;
       res = await Tflite.loadModel(
         // TODO: Try w/ Rio's model
-        model: "assets/mobilenet_v1_1.0_224.tflite",
-        labels: "assets/mobilenet_v1_1.0_224.txt",
+        model: "assets/1117153936_keras_model_mlsol_final.tflite",
+        labels: "assets/hashtags.txt",
         // useGpuDelegate: true,
       );
 

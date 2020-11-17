@@ -51,8 +51,7 @@ def main():
     model = SingleOutput(
         tag_list=tag_list,
         data_list=data_list,
-        image_dir=image_dir,
-        hashtag_list="./model/hashtags.txt")
+        image_dir=image_dir)
 
     print(sep("PREPARE INPUT", 0))
     s = time.time()
@@ -70,14 +69,14 @@ def main():
     model.summary()
     print(sep(f"{time.time()-s:.2f} SEC", 1))
 
-    # print(sep("FIT MODEL", 0))
-    # s = time.time()
-    # model.fit()
-    # print(sep(f"{time.time()-s:.2f} SEC", 1))
+    print(sep("FIT MODEL", 0))
+    s = time.time()
+    model.fit(e=1)
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
 
     print(sep("SAVE MODEL", 0))
     s = time.time()
-    model.save(os.path.join(".", "model"), "keras_model_test")
+    model.save(os.path.join(".", "model"), "keras_model_mlsol_final")
     print(sep(f"{time.time()-s:.2f} SEC", 1))
 
 

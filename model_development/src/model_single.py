@@ -20,13 +20,13 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class SingleOutput(BaseModel):
 
-    def __init__(self, data_list, tag_list, image_dir, hashtag_list):
+    def __init__(self, data_list, tag_list, image_dir):
         # Read hashtags
-        with open(hashtag_list) as f:
+        with open("./model/hashtags.txt") as f:
             # Read tag_list
             hashtags = f.read().split('\n')
         self.hashtags = hashtags[:-1]
-        self.num_hashtags = len(hashtags)
+        self.num_hashtags = len(self.hashtags)
 
         super().__init__(data_list, tag_list, image_dir)
 
@@ -80,10 +80,10 @@ class SingleOutput(BaseModel):
             loss="binary_crossentropy",
             metrics=["accuracy"])
 
-    def fit(self, e=1, v=2):
+    def fit(self, e=1, v=1):
         self.history = self.model.fit_generator(
             generator=self.train_generator,
-            steps_per_epoch=STEP_SIZE_TRAIN,
+            steps_per_epoch=self.step_size_train,
             epochs=e,
             verbose=v)
 

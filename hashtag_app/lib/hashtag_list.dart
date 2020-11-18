@@ -23,6 +23,15 @@ class _HashtagPageState extends State<HashtagPage> {
   List<Item> selectedTags = List();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  /*
+  @override
+  void initState() {
+    super.initState();
+    // TODO: perhaps look into twitter/insta to sort tags?
+    //_sortByTrending();
+  }
+  */
+
   void showSnackBar(String message) {
     _scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(message)));

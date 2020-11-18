@@ -13,7 +13,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:dotted_line/dotted_line.dart';
 
 import 'hashtag_list.dart';
+import 'history.dart';
 import 'similar_images.dart';
+import 'homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -86,20 +88,17 @@ class MyApp extends StatelessWidget {
             final tag = settings.arguments;
             return MaterialPageRoute(
                 builder: (context) => SimilarImages(tag: tag));
+          case HistoryPage.routeName:
+            final List<ScreenArguments> args = settings.arguments;
+            return MaterialPageRoute(
+                builder: (context) => HistoryPage(entries: args));
           default:
             return null;
         }
       },
-      /*initialRoute: '/',
-        routes: {
-        '/': (context) => MyHomePage(),
-        HashtagPage.routeName: (context) => HashtagPage(),
-        SimilarImages.routeName: (context) => SimilarImages(),
-      }*/
     );
   }
 }
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   // This widget is the home page of your application. It is stateful, meaning

@@ -11,8 +11,8 @@ __pycache__/
 .ipynb_checkpoints/
 
 # HARRISON data except for a few
-**/HARRISON/*.txt
-!1113124810_tag_list.txt
+data_list.txt
+tag_list.txt
 **/HARRISON/images/*.jpg
 !justinbieber_image_1127.jpg
 !makeup_image_696.jpg
@@ -47,4 +47,4 @@ __pycache__/
 
 # Model
 model_development/model/*
-*.tflite
+!*.tflite

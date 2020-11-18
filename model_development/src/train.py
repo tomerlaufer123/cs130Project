@@ -1,112 +1,84 @@
 '''
 File: train.py
 Description: Train a model and save a model to disk.
+Usage: python train.py /path/to/data_list /path/to/tag_list /path/to/images_dir
 '''
 
-from keras import preprocessing, Input, Model, regularizers, optimizers
-from keras.preprocessing.image import ImageDataGenerator
-from keras.layers import Dense, Activation, Flatten, Dropout
-from keras.layers import Conv2D, MaxPooling2D
-from keras.models import load_model
-import pandas as pd
-import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.utils import shuffle
-
-from PIL import ImageFile
-ImageFile.LOAD_TRUNCATED_IMAGES = True
-
-from utils import destination
-
-DATA_LIST = "./HARRISON/data_list.txt"
-TAG_LIST = "./HARRISON/1113124810_tag_list.txt"
-IMAGE_DIR = "./HARRISON/images"
-
-# Read files
-filename = pd.read_csv(DATA_LIST, names=["filename"], header=None)
-hashtag = pd.read_csv(TAG_LIST, names=["labels"], header=None)
-
-# Convert filenames from "instagram_dataset/xxx/yyy.jpg" to "xxx_yyy.jpg"
-filename["filename"]\
-    = filename["filename"].apply(lambda x: "_".join(x.split("/")[1:]))
-
-# Concatenate filname and labels
-target = pd.concat([filename, hashtag], axis=1)
-
-# Use vectorizer to generate a one-hot encoding
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(target["labels"])
-columns = vectorizer.get_feature_names()
-X_df = pd.DataFrame(X.toarray(), columns=columns)
-
-# Combine hashtag encodings with file names
-target = pd.concat([target, X_df], axis=1)
-target = shuffle(target, random_state=42)
-
-num_images = target.shape[0]
-num_hashtags = X_df.shape[1]
-
-# Instanciate a data generator
-datagen = ImageDataGenerator(rescale=1./255.)
-
-# Create train data generator
-train_generator = datagen.flow_from_dataframe(
-        dataframe=target,
-        directory=IMAGE_DIR,
-        x_col="filename",
-        y_col=columns,
-        batch_size=32,
-        seed=42,
-        shuffle=True,
-        class_mode="raw",
-        target_size=(100, 100)
-    )
-
-# Define model
-inp = Input(shape=(100, 100, 3))
-x = Conv2D(32, (3, 3), padding='same')(inp)
-x = Activation('relu')(x)
-x = Conv2D(32, (3, 3))(x)
-x = Activation('relu')(x)
-x = MaxPooling2D(pool_size=(2, 2))(x)
-x = Dropout(0.25)(x)
-x = Conv2D(64, (3, 3), padding='same')(x)
-x = Activation('relu')(x)
-x = Conv2D(64, (3, 3))(x)
-x = Activation('relu')(x)
-x = MaxPooling2D(pool_size=(2, 2))(x)
-x = Dropout(0.25)(x)
-x = Flatten()(x)
-x = Dense(512)(x)
-x = Activation('relu')(x)
-x = Dropout(0.5)(x)
-output = []
-for i in range(num_hashtags):
-    output.append(Dense(1, activation='sigmoid')(x))
-
-model = Model(inp, output)
-
-# Compile model
-model.compile(optimizers.rmsprop(
-        lr=0.0001,
-        decay=1e-6),
-        loss=["binary_crossentropy" for i in range(num_hashtags)],
-        metrics=["accuracy"])
+import sys
+import os
+import time
+# from model_multi import MultiOutput
+from model_single import SingleOutput
 
 
-def generator_wrapper(generator):
-    for batch_x, batch_y in generator:
-        yield (batch_x, [batch_y[:, i] for i in range(num_hashtags)])
+def sep(string, pos):
+    m = 50 - len(string)
+    if not pos:
+        ret = string + ' ' + '#' * m
+    else:
+        ret = '#' * m + ' ' + string + '\n'
+    return ret
 
 
-step_size_train = train_generator.n//train_generator.batch_size
+def main():
+    # Check # of args passed 
+    if len(sys.argv) != 4:
+        print("Error: wrong number of args passed")
+        print("Usage: python train.py data_list tag_list image_dir")
+        exit(1)
+
+    data_list = sys.argv[1]
+    tag_list = sys.argv[2]
+    image_dir = sys.argv[3]
+
+    # Confirm args are correct
+    print(f"data_list = {data_list}")
+    print(f"tag_list = {tag_list}")
+    print(f"image_dir = {image_dir}")
+    print("Are these paths correct? [y/n] ", end="")
+    
+    inp = str(input())
+    if inp != 'y':
+        print("Exiting the program...")
+        exit(0)
+    print("")
+
+    # model = MultiOutput(
+    #     tag_list=tag_list,
+    #     data_list=data_list,
+    #     image_dir=image_dir)
+
+    model = SingleOutput(
+        tag_list=tag_list,
+        data_list=data_list,
+        image_dir=image_dir)
+
+    print(sep("PREPARE INPUT", 0))
+    s = time.time()
+    model.prepare_input()
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
+
+    print(sep("DEFINE MODEL", 0))
+    s = time.time()
+    model.define()
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
+
+    print(sep("COMPILE MODEL", 0))
+    s = time.time()
+    model.compile()
+    model.summary()
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
+
+    print(sep("FIT MODEL", 0))
+    s = time.time()
+    model.fit(e=1)
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
+
+    print(sep("SAVE MODEL", 0))
+    s = time.time()
+    model.save(os.path.join(".", "model"), "keras_model_mlsol_final")
+    print(sep(f"{time.time()-s:.2f} SEC", 1))
 
 
-model.fit_generator(
-        generator=generator_wrapper(train_generator),
-        steps_per_epoch=step_size_train,
-        epochs=1,
-        verbose=0)
-
-# Save model for future use
-model.save(destination("../model", "keras_model"))
+if __name__ == "__main__":
+    main()

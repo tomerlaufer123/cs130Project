@@ -51,7 +51,6 @@ class Album {
   factory Album.fromJson(List<dynamic> json){
       List<Trend> trendList = new List<Trend>();
       for(var js in json[0]['trends']){
-        print(js);
         trendList.add(Trend.fromJson(js));
       }
 
@@ -512,12 +511,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ScreenArguments {
-  final List<String> tags;
-  final File image;
+// class ScreenArguments {
+//   final List<String> tags;
+//   final File image;
 
-  ScreenArguments(this.tags, this.image);
-}
+//   ScreenArguments(this.tags, this.image);
+// }
 
 Future<Album> fetchAlbum() async {
   //TODO: Code in here is entirely placeholder. For now, manually set Album

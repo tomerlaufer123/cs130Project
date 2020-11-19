@@ -1,3 +1,4 @@
+//import statements
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
@@ -17,11 +18,24 @@ import 'history.dart';
 import 'similar_images.dart';
 import 'homepage.dart';
 
+/**
+ * @author Takashi Joubert, Karl Danielsen, Sam Pando
+ * @version 0.1
+ * @since 0.1
+ */
 void main() {
   runApp(MyApp());
 }
 
-//Trend objects hold the data for each individual trend (within album)
+/**
+ * Trend objects hold the data for each individual trend.
+ * <p>
+ * These are used within a List in the album class to store the trends data in
+ * a readable and easily accessible format.
+ *
+ * @fields named the same way they are named in the json object, only "name" and
+ * "volume" are used.
+ */
 class Trend {
   final String name;
   final String url;
@@ -29,8 +43,20 @@ class Trend {
   final String query;
   final int    volume;
 
+  /**
+   * A basic constructor for Trends
+   *
+   * @params the json fields
+   * @return initialized Trend object 
+  */
   Trend({this.name,this.url,this.content,this.query,this.volume});
 
+  /**
+   * A factory method to build Trend objects using input json 
+   *
+   * @params 'json' is one parsed layer of json, mapping var names to values 
+   * @return initialized Trend object 
+  */
   factory Trend.fromJson(Map<String,dynamic> json){
     return Trend(
       name: json['name'],
@@ -41,13 +67,41 @@ class Trend {
     );
   }
 }
-
-//Album is a wrapper class for the list of trends, and helps parse Json
+/**
+ * Album is a wrapper class for the list of trends, and helps parse Json.
+ * <p>
+ * In the style of an Adaptor interface, Album and Trend work in tandem to
+ * turn the messy Json into an easily readable format, used later in Future
+ * objects.
+ * <p>
+ * Because of the implementation, different API calls or non-json return types
+ * could be parsed into the correct format different implementations of these
+ * two's factory methods.
+ *
+ * @fields consistent of a list of Trends objects, whose parsing is handled
+ * by calls to the Trends factory.
+ */
 class Album {
   final List<Trend> trends;
 
+  /**
+   * A basic constructor for Album
+   *
+   * @params the json field containing trends
+   * @return initialized Album object 
+  */
   Album({this.trends});
 
+  /**
+   * A factory to convert Json objects to a list of trends.
+   * <p>
+   * Recursively calls the Trend constructor and constructs a List of all the
+   * trends returned by the API call.
+   *
+   * @params 'json' is a List that contains the entire json object in its first
+   * field.
+   * @return initialized Album object 
+  */
   factory Album.fromJson(List<dynamic> json){
       List<Trend> trendList = new List<Trend>();
       for(var js in json[0]['trends']){

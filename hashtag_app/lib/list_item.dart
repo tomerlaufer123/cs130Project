@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'similar_images.dart';
 
+
+/**
+ * A class for the graphical display of individual tags. Only contains the tag
+ * item and changes its state depending on if it is selected.
+ * <p>
+ * Extensions of this class specify the details of display, a la the first
+ * design philosophy we learned
+ */
 class ListItem extends StatefulWidget {
   final Key key;
   final Item item;
@@ -12,6 +20,11 @@ class ListItem extends StatefulWidget {
   _ListItemState createState() => _ListItemState();
 }
 
+/**
+ * An extension of the superclass ListItem, which specifies exactly how to
+ * display a ListItem object. This created a basic display of the tag and its
+ * rating.
+ */
 class _ListItemState extends State<ListItem> {
   bool isSelected = false;
 
@@ -85,8 +98,16 @@ class _ListItemState extends State<ListItem> {
   }
 }
 
+/**
+ * Items are the tags to be displayed.
+ */
 class Item {
+  ///The hashtag to be displayed
   String tag;
+  ///The quality of the hashtag
   int rank;
+  /**
+   * A basic constructor for an Item object.
+   */
   Item(this.tag, this.rank);
 }

@@ -33,8 +33,8 @@ void main() {
  * These are used within a List in the album class to store the trends data in
  * a readable and easily accessible format.
  *
- * @fields named the same way they are named in the json object, only "name" and
- * "volume" are used.
+ * @fields are named the same way they are named in the json object, only
+ * "name" and "volume" are used for now.
  */
 class Trend {
   final String name;
@@ -67,6 +67,7 @@ class Trend {
     );
   }
 }
+
 /**
  * Album is a wrapper class for the list of trends, and helps parse Json.
  * <p>
@@ -75,10 +76,10 @@ class Trend {
  * objects.
  * <p>
  * Because of the implementation, different API calls or non-json return types
- * could be parsed into the correct format different implementations of these
+ * could be parsed into the correct format w/ different implementations of these
  * two's factory methods.
  *
- * @fields consistent of a list of Trends objects, whose parsing is handled
+ * @fields consists of a list of Trends objects, whose initialization is handled
  * by calls to the Trends factory.
  */
 class Album {

@@ -39,7 +39,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.hashtag_app"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -52,6 +52,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    
+    aaptOptions {
+    noCompress 'tflite'
+    noCompress 'lite'
+    }
 }
 
 flutter {
@@ -61,8 +66,3 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-
-aaptOptions {
-    noCompress 'tflite'
-    noCompress 'lite'
-  }

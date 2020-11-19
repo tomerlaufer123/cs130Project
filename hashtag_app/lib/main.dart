@@ -46,7 +46,6 @@ class Trend {
   /**
    * A basic constructor for Trends
    *
-   * @params the json fields
    * @return initialized Trend object 
   */
   Trend({this.name,this.url,this.content,this.query,this.volume});
@@ -88,7 +87,6 @@ class Album {
   /**
    * A basic constructor for Album
    *
-   * @params the json field containing trends
    * @return initialized Album object 
   */
   Album({this.trends});
@@ -108,7 +106,6 @@ class Album {
       for(var js in json[0]['trends']){
         trendList.add(Trend.fromJson(js));
       }
-
       return Album(
         trends: trendList,
     );

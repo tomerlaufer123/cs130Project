@@ -11,13 +11,23 @@ import 'package:dotted_line/dotted_line.dart';
 
 import 'hashtag_list.dart';
 import 'history.dart';
+import 'api_call.dart';
 
 /**
  * A class for the graphical display of the home page. Only contains very basic
  * information like the name of the page.
+ *
+ * 
+ * Extensions of this class specify the details of display, a la the strategy
+ * principle.
  * <p>
- * Extensions of this class specify the details of display, a la the first
- * design philosophy we learned.
+ * Subclasses of this class specify the display of the home page in its
+ * different states. They are however, private by default, and do not appear
+ * in the API.
+ * <p>
+ * Because it knits together so many of the other files, a number of functions
+ * and useful variables are defined here, including the call to the TFLite
+ * model and storage of uploaded images.
  */
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -27,13 +37,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-/**
- * This state class specifies the display of the home page in its default state.
- * <p>
- * Because it knits together so many of the other files, a number of functions
- * and useful variables are defined here, including the call to the TFLite
- * model and storage of uploaded images.
- */
 class _MyHomePageState extends State<MyHomePage> {
   ///Image file (saved in memory)
   File _image;
@@ -47,9 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _listOfTags; // List of Generated Tags
 
   ///Previously generated tags
-  List<ScreenArguments> _listOfEntries =
-      List<ScreenArguments>(); 
+  List<ScreenArguments> _listOfEntries = List<ScreenArguments>(); 
   //[ ScreenArguments(["tag1", "tag2"], null)];
+
+  ///
+  Future<Album> trends;
 
   /// true while tags being generated
   bool _busy = false; 
@@ -145,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    trends = fetchAlbum();
     _busy = true;
     loadModel().then((val) {
       setState(() {

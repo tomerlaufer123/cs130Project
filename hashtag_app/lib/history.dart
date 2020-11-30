@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-/* 
-This Page Route displays recently generated tags/images, as well as some stats 
-*/
+/** 
+ *This Page Route displays recently generated tags/images, as well as some stats 
+ */
 class HistoryPage extends StatefulWidget {
   static const routeName = '/history';
 
@@ -216,7 +216,9 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 }
-
+/**
+* Defines data for display of image and its tags.
+*/
 class ScreenArguments {
   final List<String> tags;
   final File image;

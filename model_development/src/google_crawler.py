@@ -13,6 +13,7 @@ import time
 import base64
 import os
 import traceback
+import sys
 from random import uniform
 from tqdm import tqdm
 from selenium import webdriver
@@ -25,13 +26,14 @@ from fake_useragent import UserAgent
 
 
 class Google:
-    def __init__(self, query, limit, output_dir, timeout=20,
+    def __init__(self, query, limit, output_dir, skip=0, timeout=20,
                  p_flag=False, driver_bin="./misc/chromedriver"):
         self.d_count = 0
         self.num_data_image = 0
         self.query = query
         self.output_dir = output_dir
         self.limit = limit
+        self.skip = int(skip)
         self.timeout = timeout
         self.ua = UserAgent(verify_ssl=False, use_cache_server=False)
         self.driver_bin = driver_bin
@@ -43,6 +45,9 @@ class Google:
             self.max_retry = 100
         else:
             self.max_retry = 3
+
+    def eprint(self, *args):
+        print(*args, file=sys.stderr)
 
     def get_proxies(self):
         # Open the website
@@ -96,8 +101,8 @@ class Google:
                         timeout=self.timeout).raw
                 return raw_img
             except Exception as err:
-                print(f"[!] Error: {err}")
-                print(traceback.format_exc())
+                self.eprint(f"[!] Error: {err}")
+                self.eprint(traceback.format_exc())
                 if self.p_flag:
                     self.proxies.remove(self.proxy)
                     self.set_proxy()
@@ -191,7 +196,7 @@ class Google:
 
                         if data_status == '2' or data_status == '3':
                             # Reached the end of the results
-                            print(f"[-] Reached the end")
+                            self.eprint(f"[-] Reached the end")
                             self.reached_end = True
                             break
                         elif clickable:
@@ -211,8 +216,8 @@ class Google:
                 return src_list
 
             except Exception as err:
-                print(f"[!] Error: {err}")
-                print(traceback.format_exc())
+                self.eprint(f"[!] Error: {err}")
+                self.eprint(traceback.format_exc())
                 driver.quit()
                 if self.p_flag:
                     proxies.remove(self.proxy)
@@ -223,22 +228,23 @@ class Google:
 
     def run(self):
         q_tag = ['#'+q for q in self.query]
-        print(f"[ ] Collecting {self.limit} image srouces for: {' '.join(q_tag)}")
+        self.eprint(f"[ ] Collecting {self.limit} image sources for: {' '.join(q_tag)}")
         s = time.time()
         src_list = self.get_src_list()
         num_src = len(src_list)
         e = time.time()
 
         if num_src == 0:
-            print(f"[!] Something went wrong - No image downloaded [{e-s:.2f} sec]")
+            self.eprint(f"[!] Something went wrong - No image downloaded [{e-s:.2f} sec]")
+            print(f"[!] Retry search on: {'+'.join(self.query)} {self.limit}")
 
         else:
             q_tag = ['#'+q for q in self.query]
-            print(f"[ ] Collected {num_src} image sources [{e-s:.2f} sec]")
+            self.eprint(f"[ ] Collected {num_src} image sources [{e-s:.2f} sec]")
             upper = max(self.limit, self.num_data_image)
-            for src in tqdm(src_list[:upper], unit="image"):
+            for src in tqdm(src_list[self.skip:upper], unit="image"):
                 self.download_image(src)
 
         c = '+' if self.d_count > 0 else '-'
-        print(f"[{c}] Downloaded {self.d_count} images for: {' '.join(q_tag)}")
+        self.eprint(f"[{c}] Downloaded {self.d_count} images for: {' '.join(q_tag)}")
         return int(self.d_count), self.reached_end

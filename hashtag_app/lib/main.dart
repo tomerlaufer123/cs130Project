@@ -25,12 +25,15 @@ import 'similar_images.dart';
 import 'homepage.dart';
 import 'api_call.dart';
 
+
+/**
+ * Similar to python's ___main___, simply calls the body of the project.
+ */
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -5,8 +5,8 @@ import 'dart:io';
 
 import 'list_item.dart';
 
-/* 
-This Page Route displays the list of generated hashtags passed to it 
+/** 
+* This Page Route displays the list of generated hashtags passed to it 
 */
 class HashtagPage extends StatefulWidget {
   static const routeName = '/hashtaglist';

@@ -132,6 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
     await recognizeImage(image);
 
+    //Uncomment the line corresponding to the weighting you want
+
+    //This one uses the thesaurus api call
+    //await weightTagsSyn(await trends); 
+
+    //This one does not
+    await weightTags(await trends);
+
     new FileImage(image)
         .resolve(new ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) {
@@ -199,6 +207,51 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     int endTime = new DateTime.now().millisecondsSinceEpoch;
     print("Inference took ${endTime - startTime}ms");
+  }
+
+  /**
+  * This function moves tags that are trending to the top of the data structure.
+  *
+  *
+  * In future implementations, perhaps it would be better to include some
+  * metadata to indicate this happened.
+  * Also, this might take forever to run. Though since n is never greater than
+  * 50, O(k*n^2) hopefully isn't
+  * cripplingly bad.
+  *
+  * @params The list of TensorFlow tags and the Album of twitter trends.
+  * @return A reordered version of listOfTags with trend matches at te top.
+  */
+  Future weightTagsSyn(Album trends) async{
+    Album synonyms;
+    for(String tag in _listOfTags){
+      synonyms = await fetchSynonyms(tag);
+      for(String syn in synonyms.synonyms){
+        for(Trend trend in trends.trends){
+          if(trend.name.contains(syn)){
+            _listOfTags.remove(tag);
+	    _listOfTags.insert(0,tag);
+	    break;
+	  }
+	}
+      }
+    } 
+  }
+
+  /**
+  * For information on this, refer to [weightTagsSyn()], which performs the same
+  * task with the addition of a thesaurus API call. This runs much faster.
+  */
+  void weightTags(Album trends) async{
+    for(String tag in _listOfTags){
+      for(Trend trend in trends.trends){
+        if(trend.name.contains(tag)){
+          _listOfTags.remove(tag);
+	  _listOfTags.insert(0,tag);
+          break;
+	}
+      }
+    } 
   }
 
   @override

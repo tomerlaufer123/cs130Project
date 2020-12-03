@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-/* 
-This Page Route displays images related to the hashtag argument passed to it 
+/** 
+* This Page Route displays images related to the hashtag argument passed to it 
 */
 
 // TODO: see if you could use or incorperate instagram/Twitter API

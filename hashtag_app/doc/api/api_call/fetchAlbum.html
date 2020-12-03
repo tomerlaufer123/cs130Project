@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the fetchAlbum function from the api_call library, for the Dart programming language.">
+  <title>fetchAlbum function - api_call library - Dart API</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
+</head>
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">hashtag_app</a></li>
+    <li><a href="../api_call/api_call-library.html">api_call</a></li>
+    <li class="self-crumb">fetchAlbum function</li>
+  </ol>
+  <div class="self-name">fetchAlbum</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="../index.html">hashtag_app</a></li>
+      <li><a href="../api_call/api_call-library.html">api_call</a></li>
+      <li class="self-crumb">fetchAlbum function</li>
+    </ol>
+    
+    <h5>api_call library</h5>
+    <ol>
+      <li class="section-title"><a href="../api_call/api_call-library.html#classes">Classes</a></li>
+      <li><a href="../api_call/Album-class.html">Album</a></li>
+      <li><a href="../api_call/Trend-class.html">Trend</a></li>
+    
+    
+    
+    
+    
+      <li class="section-title"><a href="../api_call/api_call-library.html#functions">Functions</a></li>
+      <li><a href="../api_call/fetchAlbum.html">fetchAlbum</a></li>
+      <li><a href="../api_call/fetchSynonyms.html">fetchSynonyms</a></li>
+      <li><a href="../api_call/split.html">split</a></li>
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-function">fetchAlbum</span> function  </h1></div>
+
+    <section class="multi-line-signature">
+        <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../api_call/Album-class.html">Album</a></span>&gt;</span></span>
+                <span class="name ">fetchAlbum</span>
+(<wbr>)
+    </section>
+    <section class="desc markdown">
+      <p>This function makes the GET request to receive information from the twitter API.</p>
+<p>@return Future object that can be used to access the reformatted data.</p>
+    </section>
+    
+    <section class="summary source-code" id="source">
+      <h2><span>Implementation</span></h2>
+      <pre class="language-dart"><code class="language-dart">Future&lt;Album&gt; fetchAlbum() async {
+  &#47;&#47;TODO: Code in here is entirely placeholder. For now, manually set Album
+  print(&quot;attempting response fetch...&quot;);
+  var jobj = &#39;[{&quot;trends&quot;:[{&quot;name&quot;:&quot;#TheBachelorette&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%23TheBachelorette&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%23TheBachelorette&quot;,&quot;tweet_volume&quot;:57785},{&quot;name&quot;:&quot;MySpace&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=MySpace&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;MySpace&quot;,&quot;tweet_volume&quot;:72808},{&quot;name&quot;:&quot;App Store&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22App+Store%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22App+Store%22&quot;,&quot;tweet_volume&quot;:64703},{&quot;name&quot;:&quot;Gavin Newsom&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Gavin+Newsom%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Gavin+Newsom%22&quot;,&quot;tweet_volume&quot;:30475},{&quot;name&quot;:&quot;French Laundry&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22French+Laundry%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22French+Laundry%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Emily Murphy&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Emily+Murphy%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Emily+Murphy%22&quot;,&quot;tweet_volume&quot;:34675},{&quot;name&quot;:&quot;Chris Krebs&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Chris+Krebs%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Chris+Krebs%22&quot;,&quot;tweet_volume&quot;:291326},{&quot;name&quot;:&quot;#wednesdaythought&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%23wednesdaythought&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%23wednesdaythought&quot;,&quot;tweet_volume&quot;:46982},{&quot;name&quot;:&quot;#NBADraft&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%23NBADraft&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%23NBADraft&quot;,&quot;tweet_volume&quot;:20102},{&quot;name&quot;:&quot;Wiseman&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Wiseman&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Wiseman&quot;,&quot;tweet_volume&quot;:10314},{&quot;name&quot;:&quot;Lamelo&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Lamelo&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Lamelo&quot;,&quot;tweet_volume&quot;:18117},{&quot;name&quot;:&quot;#WednesdayWisdom&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%23WednesdayWisdom&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%23WednesdayWisdom&quot;,&quot;tweet_volume&quot;:12204},{&quot;name&quot;:&quot;Logan Paul&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Logan+Paul%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Logan+Paul%22&quot;,&quot;tweet_volume&quot;:12591},{&quot;name&quot;:&quot;#ThxBirthControl&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%23ThxBirthControl&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%23ThxBirthControl&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Orwellian&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Orwellian&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Orwellian&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Anthony Edwards&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Anthony+Edwards%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Anthony+Edwards%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Half of Republicans&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Half+of+Republicans%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Half+of+Republicans%22&quot;,&quot;tweet_volume&quot;:15092},{&quot;name&quot;:&quot;Wendell&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Wendell&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Wendell&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;GOWON&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=GOWON&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;GOWON&quot;,&quot;tweet_volume&quot;:38981},{&quot;name&quot;:&quot;Gibbs&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Gibbs&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Gibbs&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Bulls&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Bulls&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Bulls&quot;,&quot;tweet_volume&quot;:18651},{&quot;name&quot;:&quot;Vanilla ISIS&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Vanilla+ISIS%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Vanilla+ISIS%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Obi Toppin&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Obi+Toppin%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Obi+Toppin%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Jeezy&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Jeezy&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Jeezy&quot;,&quot;tweet_volume&quot;:34188},{&quot;name&quot;:&quot;Boeing 737 Max&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Boeing+737+Max%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Boeing+737+Max%22&quot;,&quot;tweet_volume&quot;:11042},{&quot;name&quot;:&quot;Deni&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Deni&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Deni&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Milwaukee and Dane&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Milwaukee+and+Dane%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Milwaukee+and+Dane%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Cole Anthony&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Cole+Anthony%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Cole+Anthony%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Ante Tomic&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Ante+Tomic%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Ante+Tomic%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;YES THEY DID&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22YES+THEY+DID%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22YES+THEY+DID%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Twitter OG&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Twitter+OG%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Twitter+OG%22&quot;,&quot;tweet_volume&quot;:70135},{&quot;name&quot;:&quot;Oh Santa&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Oh+Santa%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Oh+Santa%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Pfizer and BioNTech&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Pfizer+and+BioNTech%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Pfizer+and+BioNTech%22&quot;,&quot;tweet_volume&quot;:11534},{&quot;name&quot;:&quot;Hump Day&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Hump+Day%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Hump+Day%22&quot;,&quot;tweet_volume&quot;:13436},{&quot;name&quot;:&quot;Michael B Jordan&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Michael+B+Jordan%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Michael+B+Jordan%22&quot;,&quot;tweet_volume&quot;:20050},{&quot;name&quot;:&quot;Lavar&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Lavar&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Lavar&quot;,&quot;tweet_volume&quot;:29763},{&quot;name&quot;:&quot;NYXL&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=NYXL&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;NYXL&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Warriors&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Warriors&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Warriors&quot;,&quot;tweet_volume&quot;:50678},{&quot;name&quot;:&quot;Sexiest Man Alive&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Sexiest+Man+Alive%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Sexiest+Man+Alive%22&quot;,&quot;tweet_volume&quot;:15787},{&quot;name&quot;:&quot;George Clooney&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22George+Clooney%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22George+Clooney%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Donyale Luna&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Donyale+Luna%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Donyale+Luna%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Wagon Wednesday&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Wagon+Wednesday%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Wagon+Wednesday%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Challenge Cup&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Challenge+Cup%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Challenge+Cup%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Steamboat Willie&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Steamboat+Willie%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Steamboat+Willie%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Nvidia&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Nvidia&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Nvidia&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Okoro&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Okoro&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Okoro&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Patrick Williams&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22Patrick+Williams%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22Patrick+Williams%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;minnie mouse&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=%22minnie+mouse%22&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;%22minnie+mouse%22&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Lavine&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Lavine&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Lavine&quot;,&quot;tweet_volume&quot;:null},{&quot;name&quot;:&quot;Danish&quot;,&quot;url&quot;:&quot;http:\&#47;\&#47;twitter.com\&#47;search?q=Danish&quot;,&quot;promoted_content&quot;:null,&quot;query&quot;:&quot;Danish&quot;,&quot;tweet_volume&quot;:29402}],&quot;as_of&quot;:&quot;2020-11-18T16:25:14Z&quot;,&quot;created_at&quot;:&quot;2020-11-17T14:04:14Z&quot;,&quot;locations&quot;:[{&quot;name&quot;:&quot;Los Angeles&quot;,&quot;woeid&quot;:2442047}]}]&#39;;
+  return Album.fromJson(jsonDecode(jobj));
+
+
+  var response = await http.get(&#39;https:&#47;&#47;api.twitter.com&#47;1.1&#47;trends&#47;place.json?id=2442047&#39;, headers: {&quot;Authorization&quot;: &quot;Bearer AAAAAAAAAAAAAAAAAAAAADu%2BJgEAAAAAgqy73WFp%2Bnd9pXPCHBym9afDra0%3DnT67LdN67UcbaJtCpOzGbtfjRlMCTgL49E56VdG9gAQ045Rm5F&quot;});
+  print(&quot;end attempt.&quot;);
+
+  if (response.statusCode == 200) {
+    print(&#39;nope&#39;);
+    return Album.fromJson(jsonDecode(response.body));
+  } else if(response.statusCode == 401){
+    print(&#39;insufficient authorization&#39;);
+  }
+  else {
+    print(&#39;yep&#39;);
+    throw Exception(&#39;Twitter server failed to respond.&#39;);
+  }
+}</code></pre>
+    </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    hashtag_app
+      1.0.0+1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../static-assets/typeahead.bundle.min.js"></script>
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/URI.js"></script>
+<script src="../static-assets/script.js"></script>
+
+
+</body>
+
+</html>

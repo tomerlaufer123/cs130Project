@@ -14,7 +14,7 @@ import 'dart:convert';
  */
 class Trend {
   ///The trending phrase itself
-  final String name;
+  final List<String> name;
   final String url;
   final String content;
   final String query;
@@ -37,7 +37,7 @@ class Trend {
   */
   factory Trend.fromJson(Map<String,dynamic> json){
     return Trend(
-      name: json['name'],
+      name: split(json['name']),
       url:  json['url'],
       content: json['promoted_content'],
       query: json['query'],
@@ -45,7 +45,6 @@ class Trend {
     );
   }
 }
-
 /**
  * Album is a wrapper class for the list of trends, and helps parse Json.
  * <p>
@@ -146,5 +145,31 @@ Future<Album> fetchAlbum() async {
   else {
     print('yep');
     throw Exception('Twitter server failed to respond.');
+  }
+}
+
+/**
+ * A function to divide each hashtag into its individual words.
+ *
+ * @params The string hashtag.
+ * @return A List containing each word in the String.
+ */
+List<String> split(String name){
+  List<String> output = new List<String>();
+  /* Simply splitting is insufficent, as there is a lot of odd behavior when
+  * keeping/ommiting different word-enders. */
+  String acc = "";
+  for(int i = 0; i < name.length; i++){
+    if(name[i] == "_" || name[i] == " "){
+      output.add(acc);
+      acc = "";
+    }
+    else if(name[i] == name[i].toUpperCase()){
+      output.add(acc);
+      acc = name[i];
+    }
+    else{
+      acc += name[i];
+    }
   }
 }

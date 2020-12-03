@@ -2,6 +2,7 @@
 File: model.py
 Description: Abstruct class for model
 '''
+import pickle
 from abc import ABC, abstractmethod
 from keras import Model
 import pandas as pd
@@ -48,4 +49,11 @@ class BaseModel(ABC):
         # Save model for future use
         dest = destination(dirname, filename)
         self.model.save(dest)
-        print(f"Model savd as {dest}")
+        print(f"Model saved as {dest}")
+
+    def save_history(self, dirname, filename):
+        # Save history for future use
+        dest = destination(dirname, filename)
+        with open(dest, "wb") as f:
+            pickle.dump(self.history.history, f)
+        print(f"History saved as {dest}")

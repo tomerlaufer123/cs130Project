@@ -4,27 +4,14 @@
 ///@version 0.1
 ///@since 0.1
 
-
-
 //import statements
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/services.dart';
-import 'dart:io';
-import 'dart:async';
-
-import 'package:tflite/tflite.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:image_cropper/image_cropper.dart';
-//import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:dotted_line/dotted_line.dart';
 
 import 'hashtag_list.dart';
 import 'history.dart';
 import 'similar_images.dart';
 import 'homepage.dart';
-import 'api_call.dart';
-
 
 /**
  * Similar to python's ___main___, simply calls the body of the project.

@@ -9,3 +9,4 @@ dependencies:
   - gensim
   - smart_open
   - seaborn
+  - nltk

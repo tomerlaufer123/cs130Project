@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //await weightTagsSyn(await trends);
 
     //This one does not
-    //await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
+    await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
 
     new FileImage(image)
         .resolve(new ImageConfiguration())

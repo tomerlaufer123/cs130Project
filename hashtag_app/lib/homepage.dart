@@ -125,20 +125,21 @@ class _MyHomePageState extends State<MyHomePage> {
       _refreshed = false;
     });
     predictImage(_image);
+    
+    //Uncomment the line corresponding to the weighting you want
+    //Placing this code after the call to predictImage hopefully fixes the bug
+    
+    //This one uses the thesaurus api call
+    //await weightTagsSyn(await trends);
+
+    //This one does not
+    //await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
   }
 
   Future predictImage(File image) async {
     if (image == null) return;
 
     await recognizeImage(image);
-
-    //Uncomment the line corresponding to the weighting you want
-
-    //This one uses the thesaurus api call
-    //await weightTagsSyn(await trends);
-
-    //This one does not
-    //await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
 
     new FileImage(image)
         .resolve(new ImageConfiguration())

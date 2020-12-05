@@ -175,7 +175,8 @@ class Data_Balance:
         plt.show()
         print("Variance in Frequency:",self.get_variance(df))
         print("5 Most Common Labels:",[(label,label_pdf.loc[label]) for label in label_pdf.nlargest(n=5).index.values])
- 
+        print("5 Least Common Labels:",[(label,label_pdf.loc[label]) for label in label_pdf.nsmallest(n=5).index.values])
+
     #for columns in Balanced_X_df that are not in M, these columns are removed from self.Balanced_X_df
     #for columns in M that are not in Balanced_X_df, these columns are added to self.Balanced_X_df as columns of zeros
     def __align_to_Matrix(self,M):

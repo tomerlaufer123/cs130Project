@@ -71,12 +71,12 @@ def main():
 
     print(sep("FIT MODEL", 0))
     s = time.time()
-    model.fit(e=1)
+    model.fit(e=100)
     print(sep(f"{time.time()-s:.2f} SEC", 1))
 
     print(sep("SAVE MODEL", 0))
     s = time.time()
-    model.save(os.path.join(".", "model"), "keras_model_mlsol_final")
+    model.save(os.path.join(".", "model"), "keras_model")
     print(sep(f"{time.time()-s:.2f} SEC", 1))
 
 

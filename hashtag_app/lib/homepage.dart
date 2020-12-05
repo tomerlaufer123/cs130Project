@@ -125,20 +125,21 @@ class _MyHomePageState extends State<MyHomePage> {
       _refreshed = false;
     });
     predictImage(_image);
+    
+    //Uncomment the line corresponding to the weighting you want
+    //Placing this code after the call to predictImage hopefully fixes the bug
+    
+    //This one uses the thesaurus api call
+    //await weightTagsSyn(await trends);
+
+    //This one does not
+    //await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
   }
 
   Future predictImage(File image) async {
     if (image == null) return;
 
     await recognizeImage(image);
-
-    //Uncomment the line corresponding to the weighting you want
-
-    //This one uses the thesaurus api call
-    //await weightTagsSyn(await trends);
-
-    //This one does not
-    //await weightTags(await trends); // was generating exception for concurrent modification during iteration of list
 
     new FileImage(image)
         .resolve(new ImageConfiguration())
@@ -243,14 +244,21 @@ class _MyHomePageState extends State<MyHomePage> {
   * task with the addition of a thesaurus API call. This runs much faster.
   */
   void weightTags(Album trends) async {
+    List<String> cpy = new List<String>();
+    int matchFound = 0;
     for (String tag in _listOfTags) {
       for (Trend trend in trends.trends) {
-        //if(trend.name.contains(tag)){
-        //  _listOfTags.remove(tag);
-        _listOfTags.insert(0, tag);
-        break;
+        if(trend.name.contains(tag)){
+          cpy.insert(0, tag);
+          matchFound = 1;
+          break;
+        }
       }
+      if(matchFound == 0)
+        cpy.add(tag);
+      matchFound = 0;
     }
+    _listOfTags = cpy;
   }
 
   @override

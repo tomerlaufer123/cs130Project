@@ -16,8 +16,26 @@ class Test {
       await tester.tap(find.byIcon(Icons.query_builder));
       await tester.pump(Duration.zero);
 
+    });
+
+    testWidgets('Testing New Photo Widget', (WidgetTester tester) async {
+
+      expect(find.text('Tap to Take a\nNew Photo', findsOneWidget);
+      await tester.tap(find.text('Tap to Take a\nNew Photo'));
+      await tester.pump(Duration.zero);
+
 
     });
+    
+    testWidgets('Testing Upload Photo Widget', (WidgetTester tester) async {
+
+      expect(find.text('Tap to Choose\nfrom Gallery', findsOneWidget);
+      await tester.tap(find.text('Tap to Choose\nfrom Gallery'));
+      await tester.pump(Duration.zero);
+
+
+    });
+
 
     testWidgets('Testing Crop Widget', (WidgetTester tester) async {
 
@@ -28,7 +46,7 @@ class Test {
 
     });
 
-    testWidgets('Testing Refresh Widget', (WidgetTester tester) async {
+    testWidgets('Testing Rotate Widget', (WidgetTester tester) async {
 
       expect(find.byIcon(Icons.refresh, findsOneWidget);
       await tester.tap(find.byIcon(Icons.refresh));

@@ -7,11 +7,13 @@
 //import statements
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hashtag_app/api_call.dart';
 
 import 'hashtag_list.dart';
 import 'history.dart';
 import 'similar_images.dart';
 import 'homepage.dart';
+import 'trending.dart';
 
 /**
  * Similar to python's ___main___, simply calls the body of the project.
@@ -49,6 +51,10 @@ class MyApp extends StatelessWidget {
             final List<ScreenArguments> args = settings.arguments;
             return MaterialPageRoute(
                 builder: (context) => HistoryPage(entries: args));
+          case TrendPage.routeName:
+            Album args = settings.arguments;
+            return MaterialPageRoute(
+                builder: (context) => TrendPage(trends: args));
           default:
             return null;
         }

@@ -156,5 +156,10 @@ This is where we do our experiments.
 - **8-create-dataset.ipynb**
 - **9-evaluation.ipynb**: A simple comparison between different models.
 
+## Sample Predictions
+We use **2.4_balanced_1_keras_model_5_mlsol.tflite** as our final model. Sample predictions are shown below:
+
+![sample_predictions](./sample_predictions.png)
+
 ## Reference
 - Minseok Park and Hanxiang Li and Junmo Kim (2016). HARRISON: A Benchmark on HAshtag Recommendation for Real-world Images in Social Networks. https://github.com/minstone/HARRISON-Dataset. Eprint: arXiv:1605.05054

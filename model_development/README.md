@@ -83,7 +83,6 @@ We develop a TensorFlow model that auto-generates hashtags based on the input im
         This function saves ```model``` as both keras model and tflite model to the disc. The keras and tflite models are saved as ```root/YYMMDDhhmmss_keras_model``` and ```root/YYMMDDhhmmss_keras_model.tflite```, respectively.
 
 2. **flatten.py**
-
     ```
     Usage: python flatten.py
     ```
@@ -109,15 +108,53 @@ We develop a TensorFlow model that auto-generates hashtags based on the input im
     This script is used to convert a keras model to a tflite model. The tflite is then saved as ```/path/to/keras/model.tflite```.
     
 4. **train.py**
+    ```
+    Usage: python train.py /path/to/data_list /path/to/tag_list /path/to/images_dir
+    ```
+    This script is used to train a model defined in `model_single.py`.
+    - `/path/to/data_list`: a text file containing filenames.
+        ```
+        sea_image_50.jpg
+        sea_image_1284.jpg
+        sea_image_1122.jpg
+        ...
+        ```
+    - `/path/to/tag_list`: a text file containing hashtags (i-th row contains tags for i-th image in `/path/to/data_list`).
+        ```
+        sea instapic instagram trip travel 
+        sea 
+        sea love 
+        ...
+        ```
+    - `/path/to/images_dir`: a directory that contains images
 
+5. **model.py**, **model_multi.py**, **model_single.py**
 
+    These scripts are the source codes for model classes. `model.py` defines an abstract model class. `model_multi.py` and `model_single.py` inherit the model class.
+
+6. **download_images.py**, **google_crawler.py**
+
+    These scripts are used for web-scraping to download additional images.
+
+7. **split_train_test.py**
+    
+    This script is used to split train and test images in HARRISON dataset.
+ 
+    
 ## Notebooks
 This is where we do our experiments.
 
-- **1-base-model.jpynb**
-    
-    A base model is created. ```./model/1031004017_keras_model.tflite``` can be deployed on a flutter app.
-
+- **1-base-model.jpynb**: Created a base model. Corresponding source code is `model_multi.py`.
+- **2-balance-data.ipynb**
+- **2.1-balance-data.ipynb**
+- **2.2-balance-data.ipynb**
+- **2.4-balance-data.ipynb**
+- **3-improve-hashtags.ipynb**: Improved groud true hashtags by adding similar tags.
+- **4-mlsol.ipynb**: Applied data augmentation. Related source code is `mlsol.py`.
+- **5-single-output-model.ipynb**: A new model definition. Corresponding source code is `model_single.py`.
+- **6-additional-images.ipynb**: Additional images to download. Related source codes are `download_images.py` and `google_crawler.py`.
+- **8-create-dataset.ipynb**
+- **9-evaluation.ipynb**: A simple comparison between different models.
 
 ## Reference
 - Minseok Park and Hanxiang Li and Junmo Kim (2016). HARRISON: A Benchmark on HAshtag Recommendation for Real-world Images in Social Networks. https://github.com/minstone/HARRISON-Dataset. Eprint: arXiv:1605.05054

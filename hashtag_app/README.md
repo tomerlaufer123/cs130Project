@@ -1,5 +1,8 @@
 # Flutter Application
 
+## Overview
+This is the front end code for a flutter application for image-based hashtag generation.
+
 ## Main Contributors
 #### Front End Code
 - Takashi Joubert
@@ -7,12 +10,9 @@
 
 #### Testing
 - Shreya Raman
-- Sam Pando
+- Sam Pando (Android Only)
 
 ## Getting Started
-
-This is the front end code for a flutter application for image-based hashtag generation.
-
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)

@@ -1,6 +1,4 @@
-# COM SCI 130 Group Project
-
-This is a Prototype, run on iOS.
+# Flutter Application
 
 #### Team Members
 Rio Sonoyama,
@@ -15,14 +13,9 @@ Takashi Joubert,
 
 Karl Danielsen
 
-change app icon: https://pub.dev/packages/flutter_launcher_icons
-and cute project name for real project
-
-
-
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is the front end code for a flutter application for image-based hashtag generation.
 
 A few resources to get you started if this is your first Flutter project:
 

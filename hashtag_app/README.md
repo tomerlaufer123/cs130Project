@@ -2,9 +2,6 @@
 
 A Flutter Application for generating hashtags from images/photos taken from the camera or gallery. 
 
-## Overview
-This is the front end code for a flutter application for image-based hashtag generation.
-
 ## Main Contributors
 #### Front End Code
 - Takashi Joubert
@@ -20,7 +17,7 @@ The hashtag_app directory contains all the files needed to run our project run o
 
 - /android -  contains a complete Android native app project which is used when building the Flutter application for Android
 
-- /assets - contains the .tflite models to be deployed in the app, and our app logo
+- /assets - contains .tflite files for the models to be deployed in the app, and our app logo
 
 - /doc/api - contains the API documentation for our project files
 

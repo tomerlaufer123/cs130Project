@@ -157,7 +157,7 @@ This is where we do our experiments.
 - **9-evaluation.ipynb**: A simple comparison between different models.
 
 ## Sample Predictions
-We use **2.4_balanced_2_keras_model_5_mlsol.tflite** as our final model. Sample predictions are shown below:
+We use **2.4_balanced_1_keras_model_5_mlsol.tflite** as our final model. Sample predictions are shown below:
 
 ![sample_predictions](./sample_predictions.png)
 

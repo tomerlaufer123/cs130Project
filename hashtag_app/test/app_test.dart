@@ -106,7 +106,7 @@ class Test {
       final page = _HashtagPageState()
 
       expect(page.allTags.length, isNot(0));
-      expect(page.selectedTags.length, 0;
+      expect(page.selectedTags.length, 0);
 
     });
 

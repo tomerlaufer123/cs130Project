@@ -11,6 +11,7 @@ import 'package:dotted_line/dotted_line.dart';
 
 import 'hashtag_list.dart';
 import 'history.dart';
+import 'trending.dart';
 import 'api_call.dart';
 
 /**
@@ -125,10 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _refreshed = false;
     });
     predictImage(_image);
-    
+
     //Uncomment the line corresponding to the weighting you want
     //Placing this code after the call to predictImage hopefully fixes the bug
-    
+
     //This one uses the thesaurus api call
     //await weightTagsSyn(await trends);
 
@@ -174,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String res;
       res = await Tflite.loadModel(
         // TODO: Try w/ Rio's Updated model
-        model: "assets/1117153936_keras_model_mlsol_final.tflite",
+        model: "assets/2.4_balanced_1_keras_model_5_mlsol.tflite",
         labels: "assets/hashtags.txt",
         // useGpuDelegate: true,
       );
@@ -248,14 +249,13 @@ class _MyHomePageState extends State<MyHomePage> {
     int matchFound = 0;
     for (String tag in _listOfTags) {
       for (Trend trend in trends.trends) {
-        if(trend.name.contains(tag)){
+        if (trend.name.contains(tag)) {
           cpy.insert(0, tag);
           matchFound = 1;
           break;
         }
       }
-      if(matchFound == 0)
-        cpy.add(tag);
+      if (matchFound == 0) cpy.add(tag);
       matchFound = 0;
     }
     _listOfTags = cpy;
@@ -291,14 +291,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.pink,
               ),
             ),
-            ListTile(
+            /*ListTile(
               title: Text('View Favorites',
                   style: TextStyle(fontSize: 15, color: Colors.white)),
               onTap: () => {
                 // TODO: Maybe view favs idk
               },
               leading: Icon(Icons.favorite, color: Color(0xFFF48Fb1)),
-            ),
+            ),*/
             ListTile(
               title: Text('See History',
                   style: TextStyle(fontSize: 15, color: Colors.white)),
@@ -312,7 +312,8 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text("What's Trending?",
                   style: TextStyle(fontSize: 15, color: Colors.white)),
               onTap: () => {
-                // TODO: Find some trending tags on twitter and insta?
+                Navigator.pushNamed(context, TrendPage.routeName,
+                    arguments: trends)
               },
               leading: Icon(Icons.local_fire_department, color: Colors.orange),
             ),

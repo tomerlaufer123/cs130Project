@@ -15,7 +15,7 @@ Team project for CS130 Software Engineering Fall 2020.
 
 Here is an overview of our repository structure.
 - `hashtag_app`
-    - `README.md`
+    - `README.md`: A brief description of our flutter app and some of the relevant files
     - `.gitignore`
     - `.metadata`
     - `pubspec.lock`
@@ -23,18 +23,18 @@ Here is an overview of our repository structure.
     - `ios`: iOS project version
     - `android`: Android project version
     - `assets`: Contains completed tflite model as well as test files and images
-    - `test`: Project test cases
-        - `api_test.dart`
+    - `test`: Project files for automated testing
+        - `api_test.dart`: project test cases
     - `lib`: Dart project apis
-        - `main.dart`
-        - `api_call.dart`
+        - `main.dart`: main loop for the project
+        - `api_call.dart`: 
         - `hashtag_list.dart`
         - `history.dart`
         - `homepage.dart`
         - `list_item.dart`
         - `similar_images.dart`
         - `trending.dart`
-    - `doc/api`: Documentation
+    - `doc/api`: The API documentation for our project files
 - `model_development`
     - `README.md`: A brief documentation for model development process
     - `environment.yml`: Conda environment configuration

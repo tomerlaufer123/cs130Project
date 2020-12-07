@@ -82,7 +82,7 @@ We develop a TensorFlow model that auto-generates hashtags based on the input im
 
         This function saves ```model``` as both keras model and tflite model to the disc. The keras and tflite models are saved as ```root/YYMMDDhhmmss_keras_model``` and ```root/YYMMDDhhmmss_keras_model.tflite```, respectively.
 
-2. **flatten.py**
+2. **flatten_allOS.py**
     ```
     Usage: python flatten.py
     ```

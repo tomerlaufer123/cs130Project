@@ -24,10 +24,10 @@ Here is an overview of our repository structure.
     - `android`: Android project version
     - `assets`: Contains completed tflite model as well as test files and images
     - `test`: Project files for automated testing
-        - `api_test.dart`: project test cases
+        - `api_test.dart`
     - `lib`: Dart project apis
-        - `main.dart`: main loop for the project
-        - `api_call.dart`: 
+        - `main.dart`
+        - `api_call.dart`
         - `hashtag_list.dart`
         - `history.dart`
         - `homepage.dart`

@@ -1,17 +1,13 @@
 # Flutter Application
 
-#### Team Members
-Rio Sonoyama,
+## Main Contributors
+#### Front End Code
+- Takashi Joubert
+- Karl Danielsen
 
-Tomer Laufer,
-
-Shreya Raman,
-
-Sam Pando,
-
-Takashi Joubert,
-
-Karl Danielsen
+#### Testing
+- Shreya Raman
+- Sam Pando
 
 ## Getting Started
 
